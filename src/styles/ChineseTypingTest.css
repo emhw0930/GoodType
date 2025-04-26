@@ -456,6 +456,7 @@
 
 .back-button, .language-button {
   background-color: #f0f6ff;
+  margin: 0px;
   color: #4a6fa5;
   border: 1px solid rgba(74, 111, 165, 0.3);
   padding: 1rem 2rem;
