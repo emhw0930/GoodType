@@ -1,26 +1,27 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import LanguageSelector from './components/LanguageSelector';
+import EnglishTypingTest from './components/EnglishTypingTest';
+import ChineseTypingTest from './components/ChineseTypingTest';
 import './App.css';
 
-function App() {
+const App: React.FC = () => {
+  const handleBack = () => {
+    window.location.href = '/';
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<LanguageSelector />} />
+          <Route path="/english" element={<EnglishTypingTest onBack={handleBack} />} />
+          <Route path="/chinese" element={<ChineseTypingTest onBack={handleBack} />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
