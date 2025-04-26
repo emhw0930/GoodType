@@ -15,18 +15,22 @@
   margin-bottom: 2rem;
 }
 
-.back-button {
-  padding: 0.5rem 1rem;
-  background-color: #f1f1f1;
-  border: none;
-  border-radius: 4px;
+.back-button, .language-button {
+  background-color: #f0f6ff;
+  color: #4a6fa5;
+  border: 1px solid rgba(74, 111, 165, 0.3);
+  padding: 1rem 2rem;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: all 0.2s ease;
   cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.2s;
+  z-index: 1;
+  font-size: 0.9rem;
 }
 
-.back-button:hover {
-  background-color: #e0e0e0;
+.back-button:hover, .language-button:hover {
+  background-color: #e0ecff;
+  transform: translateY(-2px);
 }
 
 .timer {
