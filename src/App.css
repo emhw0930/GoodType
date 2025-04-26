@@ -63,3 +63,15 @@ button {
     transform: rotate(360deg);
   }
 }
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 80px; /* 為footer預留空間 */
+}
+
+.content-wrapper {
+  flex: 1;
+}

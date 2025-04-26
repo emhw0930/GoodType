@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useTimer from '../hooks/useTimer';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { englishWords } from '../data/englishWords';
@@ -6,7 +7,7 @@ import '../styles/TypingTest.css';
 import '../styles/ChineseTypingTest.css';
 
 interface EnglishTypingTestProps {
-  onBack: () => void;
+  // 移除 onBack prop
 }
 
 interface TestResults {
@@ -14,7 +15,9 @@ interface TestResults {
   accuracy: number;
 }
 
-const EnglishTypingTest: React.FC<EnglishTypingTestProps> = ({ onBack }) => {
+const EnglishTypingTest: React.FC<EnglishTypingTestProps> = () => {
+  const navigate = useNavigate(); // 使用navigate代替onBack
+  
   const [wordList, setWordList] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [inputValue, setInputValue] = useState('');
@@ -240,16 +243,21 @@ const EnglishTypingTest: React.FC<EnglishTypingTestProps> = ({ onBack }) => {
   // 如果沒有 wordList 或 currentIndex 超出範圍，不要渲染輸入部分
   const shouldRenderInput = wordList.length > 0 && currentIndex < wordList.length;
 
-  // 添加切換到中文測試的函數
+  // 更新返回功能使用navigate
+  const handleBack = () => {
+    navigate('/');
+  };
+
+  // 更新切換到中文功能使用navigate
   const switchToChinese = () => {
-    window.location.href = '/chinese';
+    navigate('/chinese');
   };
 
   return (
-    <div className="typing-test chinese-test">
+    <div className="typing-test english-test">
       <div className="header">
-        <button className="back-button" onClick={onBack}>← 返回</button>
-        <h2 className="title">English Typing Test</h2>
+        <button className="back-button" onClick={handleBack}>← Back</button>
+        <h2 className="title">English Typing Practice</h2>
         <button className="language-button" onClick={switchToChinese}>
           切換到中文
         </button>
@@ -296,12 +304,12 @@ const EnglishTypingTest: React.FC<EnglishTypingTestProps> = ({ onBack }) => {
                 <div className="records-container">
                   {lastScore && lastScore !== highScore && (
                     <div className="last-score-display">
-                      Last: {lastScore.wpm} words
+                      Last: {lastScore.wpm} WPM
                     </div>
                   )}
                   {highScore && (
                     <div className="high-score-display">
-                      Best: {highScore.wpm} words
+                      Best: {highScore.wpm} WPM
                     </div>
                   )}
                 </div>
@@ -351,21 +359,11 @@ const EnglishTypingTest: React.FC<EnglishTypingTestProps> = ({ onBack }) => {
             </div>
           </div>
           
-          {lastScore && lastScore !== results && (
-            <div className="previous-score">
-              <h4>Previous Score:</h4>
-              <div>WPM: {lastScore.wpm}</div>
-              <div>Accuracy: {lastScore.accuracy}%</div>
-            </div>
-          )}
-          
-          {highScore && (
-            <div className="high-score">
-              <h4>High Score:</h4>
-              <div>WPM: {highScore.wpm}</div>
-              <div>Accuracy: {highScore.accuracy}%</div>
-            </div>
-          )}
+          <div className="high-score">
+            <h4>High Score:</h4>
+            <div>WPM: {highScore?.wpm}</div>
+            <div>Accuracy: {highScore?.accuracy}%</div>
+          </div>
           
           <button className="reset-button" onClick={handleReset}>Try Again</button>
         </div>

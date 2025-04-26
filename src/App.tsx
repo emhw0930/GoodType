@@ -1,27 +1,37 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import LanguageSelector from './components/LanguageSelector';
-import EnglishTypingTest from './components/EnglishTypingTest';
-import ChineseTypingTest from './components/ChineseTypingTest';
 import './App.css';
+import ChineseTypingTest from './components/ChineseTypingTest';
+import EnglishTypingTest from './components/EnglishTypingTest';
+import LanguageSelector from './components/LanguageSelector';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import CookiePolicy from './components/CookiePolicy';
+import TermsOfService from './components/TermsOfService';
+import AdDisclosure from './components/AdDisclosure';
+import About from './components/About';
+import Footer from './components/Footer';
 
-const App: React.FC = () => {
-  const handleBack = () => {
-    window.location.href = '/';
-  };
-
+function App() {
   return (
     <Router>
-      <div className="App">
-        <Routes>
-          <Route path="/" element={<LanguageSelector />} />
-          <Route path="/english" element={<EnglishTypingTest onBack={handleBack} />} />
-          <Route path="/chinese" element={<ChineseTypingTest onBack={handleBack} />} />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
+      <div className="app-container">
+        <div className="content-wrapper">
+          <Routes>
+            <Route path="/" element={<LanguageSelector />} />
+            <Route path="/chinese" element={<ChineseTypingTest />} />
+            <Route path="/english" element={<EnglishTypingTest />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/cookie-policy" element={<CookiePolicy />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
+            <Route path="/ad-disclosure" element={<AdDisclosure />} />
+            <Route path="/about" element={<About />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </div>
+        <Footer />
       </div>
     </Router>
   );
-};
+}
 
 export default App;

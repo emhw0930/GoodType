@@ -1,3 +1,10 @@
+.english-test {
+  min-height: 100vh;
+  background-color: #f8f9fb;
+  margin: 0;
+  width: 100%;
+}
+
 .chinese-test {
   min-height: 100vh;
   background-color: #f8f9fb;
@@ -530,7 +537,6 @@
 .english-word .hanzi {
   font-size: 1.8rem;
   font-weight: bold;
-  margin-bottom: 0.5rem;
   color: #333;
   text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
 }

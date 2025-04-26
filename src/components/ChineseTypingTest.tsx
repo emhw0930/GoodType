@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useTimer from '../hooks/useTimer';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { chineseWords, ChineseWord } from '../data/chineseWords';
@@ -6,7 +7,7 @@ import '../styles/TypingTest.css';
 import '../styles/ChineseTypingTest.css';
 
 interface ChineseTypingTestProps {
-  onBack: () => void;
+  // 移除 onBack prop
 }
 
 interface TestResults {
@@ -14,7 +15,9 @@ interface TestResults {
   accuracy: number;
 }
 
-const ChineseTypingTest: React.FC<ChineseTypingTestProps> = ({ onBack }) => {
+const ChineseTypingTest: React.FC<ChineseTypingTestProps> = () => {
+  const navigate = useNavigate(); // 使用navigate代替onBack
+  
   const [wordList, setWordList] = useState<ChineseWord[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [correctChars, setCorrectChars] = useState(0);
@@ -214,10 +217,14 @@ const ChineseTypingTest: React.FC<ChineseTypingTestProps> = ({ onBack }) => {
   // 如果沒有 wordList 或 currentIndex 超出範圍，不要渲染輸入部分
   const shouldRenderInput = wordList.length > 0 && currentIndex < wordList.length;
 
-  // 新增切換到英文測試的函數
+  // 更新返回功能使用navigate
+  const handleBack = () => {
+    navigate('/');
+  };
+
+  // 更新切換到英文功能使用navigate
   const switchToEnglish = () => {
-    // 直接調用onBack函數，然後通過URL參數指示要切換到英文
-    window.location.href = '/english';
+    navigate('/english');
   };
 
   const toggleTimer = () => {
@@ -227,7 +234,7 @@ const ChineseTypingTest: React.FC<ChineseTypingTestProps> = ({ onBack }) => {
   return (
     <div className="typing-test chinese-test">
       <div className="header">
-        <button className="back-button" onClick={onBack}>← 返回</button>
+        <button className="back-button" onClick={handleBack}>← 返回</button>
         <h2 className="title">中文打字練習</h2>
         <button className="language-button" onClick={switchToEnglish}>
           Switch to English
