@@ -2,7 +2,7 @@
   "name": "typing-practice",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://emhw0930.github.io/GoodType",
+  "homepage": "https://emhw0930.github.io/typing-practice",
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
