@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/LanguageSelector.css';
+import typingDuck from '../assets/typing-duck.svg';
 
 const LanguageSelector: React.FC = () => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ const LanguageSelector: React.FC = () => {
 
   return (
     <div className="language-selector">
+      <img src={typingDuck} alt="Typing Duck" className="app-logo" />
       <h1>中文繁體打字練習</h1>
       <h2>選擇打字練習語言</h2>
       <div className="language-buttons">
