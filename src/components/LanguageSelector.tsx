@@ -10,24 +10,28 @@ const LanguageSelector: React.FC = () => {
   };
 
   return (
-    <div className="language-selector">
-      <h1>中文繁體打字練習</h1>
-      <h2>選擇打字練習語言</h2>
-      <div className="language-buttons">
+    <main className="language-selector">
+      <header>
+        <h1>中文繁體打字練習</h1>
+        <h2>選擇打字練習語言</h2>
+      </header>
+      <nav className="language-buttons" aria-label="語言選擇">
         <button 
           className="language-button" 
           onClick={() => handleSelectLanguage('english')}
+          aria-label="選擇英文打字練習"
         >
           English
         </button>
         <button 
           className="language-button" 
           onClick={() => handleSelectLanguage('chinese')}
+          aria-label="選擇中文打字練習"
         >
           中文
         </button>
-      </div>
-    </div>
+      </nav>
+    </main>
   );
 };
 
