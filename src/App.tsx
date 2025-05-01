@@ -10,11 +10,13 @@ import TermsOfService from './components/TermsOfService';
 import AdDisclosure from './components/AdDisclosure';
 import About from './components/About';
 import Footer from './components/Footer';
+import GoogleAdsense from './components/GoogleAdsense';
 
 function App() {
   return (
     <Router>
       <div className="app-container">
+        <GoogleAdsense />
         <div className="content-wrapper">
           <Routes>
             <Route path="/" element={<LanguageSelector />} />
