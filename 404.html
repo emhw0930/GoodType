@@ -15,11 +15,19 @@
       // 只保留基本路徑
       var basePath = path.split('/').slice(0, 1 + pathSegmentsToKeep).join('/');
       
-      // 重定向到正確的路徑
-      window.location.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        basePath + '/#' + path.slice(basePath.length) + search + hash
-      );
+      // 如果是重新整理頁面，保持原始 URL
+      if (path === '/chinese/' || path === '/chinese') {
+        window.location.replace(
+          l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+          '/chinese' + search + hash
+        );
+      } else {
+        // 其他情況重定向到主頁
+        window.location.replace(
+          l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+          '/'
+        );
+      }
     </script>
   </head>
   <body>
