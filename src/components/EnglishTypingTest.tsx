@@ -35,6 +35,11 @@ const EnglishTypingTest: React.FC<EnglishTypingTestProps> = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { timeLeft, isActive, isFinished, startTimer, resetTimer } = useTimer(60);
 
+  const LINES_ON_SCREEN = 2;
+  const WORDS_PER_LINE = 5;
+  const [currentLine, setCurrentLine] = useState(0);
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+
   // 生成隨機單詞列表
   useEffect(() => {
     generateWordList();
@@ -159,57 +164,48 @@ const EnglishTypingTest: React.FC<EnglishTypingTestProps> = () => {
     }
   };
 
+  const getLineWords = (line: number) => {
+    const start = line * WORDS_PER_LINE;
+    return wordList.slice(start, start + WORDS_PER_LINE);
+  };
+
   const handleSubmit = () => {
-    // 額外的安全檢查
-    if (isFinished || !wordList.length || currentIndex >= wordList.length) {
-      return;
-    }
-    
-    const currentWord = wordList[currentIndex];
-    if (!currentWord) {
-      return;
-    }
-    
-    if (!inputValue.trim()) {
-      return;
-    }
-    
-    // 檢查輸入是否正確
+    if (isFinished || !wordList.length) return;
+    const globalIdx = currentLine * WORDS_PER_LINE + currentWordIndex;
+    const currentWord = wordList[globalIdx];
+    if (!currentWord || !inputValue.trim()) return;
     const isCorrect = inputValue.toLowerCase().trim() === currentWord.toLowerCase();
-    
-    // 更新統計數據
     setTotalWords(prev => prev + 1);
-    setTotalChars(prev => prev + currentWord.length); // 累計字符數
+    setTotalChars(prev => prev + currentWord.length);
     if (isCorrect) {
       setCorrectWords(prev => prev + 1);
       setFeedback('correct');
     } else {
       setFeedback('incorrect');
     }
-    
-    // 更新單詞狀態以顯示視覺反饋
     const newStatus = [...wordStatus];
-    newStatus[currentIndex] = isCorrect ? 'correct' : 'incorrect';
+    newStatus[globalIdx] = isCorrect ? 'correct' : 'incorrect';
     setWordStatus(newStatus);
-    
-    // 清空輸入框，必須在移動到下一個詞之前執行
     clearInput();
-    
-    // 隔一小段時間後清除反饋
     setTimeout(() => setFeedback(null), 300);
-    
-    // 確保輸入框完全清空後再移動到下一個詞
     setTimeout(() => {
-      moveToNextWord();
-    }, 20);
+      if (currentWordIndex < WORDS_PER_LINE - 1) {
+        setCurrentWordIndex(prev => prev + 1);
+      } else {
+        setCurrentLine(prev => prev + 1);
+        setCurrentWordIndex(0);
+      }
+    }, 0);
   };
 
   const handleReset = () => {
     generateWordList();
     setCurrentIndex(0);
+    setCurrentLine(0);
+    setCurrentWordIndex(0);
     setCorrectWords(0);
     setTotalWords(0);
-    setTotalChars(0); // 重置字符計數
+    setTotalChars(0);
     setResults(null);
     setWordStatus(Array(200).fill(null));
     setInputValue('');
@@ -273,26 +269,34 @@ const EnglishTypingTest: React.FC<EnglishTypingTestProps> = () => {
               ></div>
             </div>
             
-            <div className="words-container">
-              {wordList.slice(currentIndex, currentIndex + 10).map((word, idx) => (
-                <div 
-                  key={`word-${currentIndex + idx}`} 
-                  className={`english-word ${idx === 0 ? 'current' : ''} ${idx === 0 && hasTypingError ? 'error' : ''}`}
-                >
-                  <div 
-                    className={`hanzi ${
-                      idx === 0 && hasTypingError
-                        ? 'incorrect-hanzi'
-                        : wordStatus[currentIndex + idx] 
-                          ? `${wordStatus[currentIndex + idx]}-hanzi` 
-                          : ''
-                    }`}
-                  >
-                    {word}
-                  </div>
+            {[...Array(LINES_ON_SCREEN)].map((_, lineOffset) => {
+              const lineNum = currentLine + lineOffset;
+              const words = getLineWords(lineNum);
+              return (
+                <div className="words-container" key={lineNum}>
+                  {words.map((word, idx) => {
+                    const globalIdx = lineNum * WORDS_PER_LINE + idx;
+                    const isCurrent = lineOffset === 0 && idx === currentWordIndex;
+                    return (
+                      <div
+                        key={`word-${globalIdx}`}
+                        className={`english-word${isCurrent ? ' current' : ''}`}
+                      >
+                        <div
+                          className={`hanzi ${
+                            wordStatus[globalIdx]
+                              ? `${wordStatus[globalIdx]}-hanzi`
+                              : ''
+                          }`}
+                        >
+                          {word}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
-              ))}
-            </div>
+              );
+            })}
           </div>
 
           {shouldRenderInput && (

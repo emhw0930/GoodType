@@ -87,13 +87,11 @@
 }
 
 .correct-hanzi {
-  color: #4caf50;
-  text-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+  color: #228B22 !important;
 }
 
 .incorrect-hanzi {
-  color: #f44336;
-  text-shadow: 0 0 8px rgba(244, 67, 54, 0.5);
+  color: #ff4136 !important;
 }
 
 .zhuyin-container {

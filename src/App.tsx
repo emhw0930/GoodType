@@ -19,7 +19,8 @@ function App() {
         <GoogleAdsense />
         <div className="content-wrapper">
           <Routes>
-            <Route path="/" element={<LanguageSelector />} />
+            <Route path="/" element={<ChineseTypingTest />} />
+            <Route path="/language-selector" element={<LanguageSelector />} />
             <Route path="/chinese" element={<ChineseTypingTest />} />
             <Route path="/english" element={<EnglishTypingTest />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
