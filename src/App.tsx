@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import './App.css';
 import ChineseTypingTest from './components/ChineseTypingTest';
 import EnglishTypingTest from './components/EnglishTypingTest';
@@ -12,11 +12,18 @@ import About from './components/About';
 import Footer from './components/Footer';
 import GoogleAdsense from './components/GoogleAdsense';
 
+// Helper component to conditionally render ads
+const AdWrapper: React.FC = () => {
+  const location = useLocation();
+  const shouldShowAds = ['/chinese', '/english', '/'].includes(location.pathname);
+  return <GoogleAdsense shouldLoadAds={shouldShowAds} />;
+};
+
 function App() {
   return (
     <Router>
       <div className="app-container">
-        <GoogleAdsense />
+        <AdWrapper />
         <div className="content-wrapper">
           <Routes>
             <Route path="/" element={<ChineseTypingTest />} />

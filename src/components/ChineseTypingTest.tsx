@@ -225,24 +225,6 @@ const ChineseTypingTest: React.FC<ChineseTypingTestProps> = () => {
           </div>
 
           <div className={`input-container ${feedback ? `feedback-${feedback}` : ''}`}>
-            <div className="display-container">
-              <div className="current-hanzi-display">
-                目前詞語: {getLineWords(currentLine)[currentWordIndex]?.word || '載入中...'}
-              </div>
-              <div className="records-container">
-                {lastScore && lastScore !== highScore && (
-                  <div className="last-score-display">
-                    上次: {lastScore.wpm} 字
-                  </div>
-                )}
-                {highScore && (
-                  <div className="high-score-display">
-                    最高紀錄: {highScore.wpm} 字
-                  </div>
-                )}
-              </div>
-            </div>
-            
             <div className="input-controls-container">
               <input
                 ref={inputRef}
@@ -263,6 +245,19 @@ const ChineseTypingTest: React.FC<ChineseTypingTestProps> = () => {
             
             <div className="typing-hint">
               輸入完整的中文詞後按 Enter 繼續
+            </div>
+
+            <div className="records-container">
+              {lastScore && lastScore !== highScore && (
+                <div className="last-score-display">
+                  上次: {lastScore.wpm} 字
+                </div>
+              )}
+              {highScore && (
+                <div className="high-score-display">
+                  最高紀錄: {highScore.wpm} 字
+                </div>
+              )}
             </div>
           </div>
         </>

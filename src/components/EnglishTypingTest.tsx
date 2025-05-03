@@ -301,24 +301,6 @@ const EnglishTypingTest: React.FC<EnglishTypingTestProps> = () => {
 
           {shouldRenderInput && (
             <div className={`input-container ${feedback ? `feedback-${feedback}` : ''}`}>
-              <div className="display-container">
-                <div className="current-hanzi-display">
-                  Current Word: {wordList[currentIndex] || 'Loading...'}
-                </div>
-                <div className="records-container">
-                  {lastScore && lastScore !== highScore && (
-                    <div className="last-score-display">
-                      Last: {lastScore.wpm} WPM
-                    </div>
-                  )}
-                  {highScore && (
-                    <div className="high-score-display">
-                      Best: {highScore.wpm} WPM
-                    </div>
-                  )}
-                </div>
-              </div>
-              
               <div className="input-controls-container">
                 <input
                   ref={inputRef}
@@ -341,6 +323,19 @@ const EnglishTypingTest: React.FC<EnglishTypingTestProps> = () => {
               
               <div className="typing-hint">
                 Type the complete word and press Space to continue
+              </div>
+
+              <div className="records-container">
+                {lastScore && lastScore !== highScore && (
+                  <div className="last-score-display">
+                    Last: {lastScore.wpm} WPM
+                  </div>
+                )}
+                {highScore && (
+                  <div className="high-score-display">
+                    Best: {highScore.wpm} WPM
+                  </div>
+                )}
               </div>
             </div>
           )}
