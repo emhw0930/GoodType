@@ -55,14 +55,17 @@ const EnglishTypingTest: React.FC<EnglishTypingTestProps> = () => {
       const accuracy = totalWords > 0 ? Math.round((correctWords / totalWords) * 100) : 0;
       
       const currentResults = { wpm, accuracy };
-      setResults(currentResults);
-      setLastScore(currentResults);
-      
+      if (!results || results.wpm !== wpm || results.accuracy !== accuracy) {
+        setResults(currentResults);
+      }
+      if (!lastScore || lastScore.wpm !== wpm || lastScore.accuracy !== accuracy) {
+        setLastScore(currentResults);
+      }
       if (!highScore || wpm > highScore.wpm) {
         setHighScore(currentResults);
       }
     }
-  }, [isFinished, correctWords, totalWords, totalChars, setLastScore, setHighScore, highScore]);
+  }, [isFinished, correctWords, totalWords, totalChars, setLastScore, setHighScore, lastScore, highScore, results]);
 
   const generateWordList = () => {
     // 打亂並選擇隨機單詞
@@ -252,7 +255,6 @@ const EnglishTypingTest: React.FC<EnglishTypingTestProps> = () => {
   return (
     <div className="typing-test english-test">
       <div className="header">
-        <button className="back-button" onClick={handleBack}>← Back</button>
         <h2 className="title">English Typing Practice</h2>
         <button className="language-button" onClick={switchToChinese}>
           切換到中文

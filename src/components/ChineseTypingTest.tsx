@@ -43,16 +43,19 @@ const ChineseTypingTest: React.FC<ChineseTypingTestProps> = () => {
     if (isFinished) {
       const wpm = Math.round(totalChars);
       const accuracy = totalChars > 0 ? Math.round((correctChars / totalChars) * 100) : 0;
-      
       const currentResults = { wpm, accuracy };
-      setResults(currentResults);
-      setLastScore(currentResults);
-      
+
+      if (!results || results.wpm !== wpm || results.accuracy !== accuracy) {
+        setResults(currentResults);
+      }
+      if (!lastScore || lastScore.wpm !== wpm || lastScore.accuracy !== accuracy) {
+        setLastScore(currentResults);
+      }
       if (!highScore || wpm > highScore.wpm) {
         setHighScore(currentResults);
       }
     }
-  }, [isFinished, correctChars, totalChars, setLastScore, setHighScore, highScore]);
+  }, [isFinished, correctChars, totalChars, setLastScore, setHighScore, lastScore, highScore, results]);
 
   const generateWordList = () => {
     const shuffled = [...chineseWords].sort(() => 0.5 - Math.random());
@@ -158,7 +161,7 @@ const ChineseTypingTest: React.FC<ChineseTypingTestProps> = () => {
   };
 
   const handleBack = () => {
-    navigate('/language-selector');
+    navigate('/');
   };
 
   const switchToEnglish = () => {
@@ -172,7 +175,6 @@ const ChineseTypingTest: React.FC<ChineseTypingTestProps> = () => {
   return (
     <div className="typing-test chinese-test">
       <div className="header">
-        <button className="back-button" onClick={handleBack}>← 返回</button>
         <h2 className="title">中文打字練習</h2>
         <button className="language-button" onClick={switchToEnglish}>
           Switch to English

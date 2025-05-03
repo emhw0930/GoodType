@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'r
 import './App.css';
 import ChineseTypingTest from './components/ChineseTypingTest';
 import EnglishTypingTest from './components/EnglishTypingTest';
-import LanguageSelector from './components/LanguageSelector';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import CookiePolicy from './components/CookiePolicy';
 import TermsOfService from './components/TermsOfService';
@@ -27,7 +26,6 @@ function App() {
         <div className="content-wrapper">
           <Routes>
             <Route path="/" element={<ChineseTypingTest />} />
-            <Route path="/language-selector" element={<LanguageSelector />} />
             <Route path="/chinese" element={<ChineseTypingTest />} />
             <Route path="/english" element={<EnglishTypingTest />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
