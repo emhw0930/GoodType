@@ -41,7 +41,7 @@ const ChineseTypingTest: React.FC<ChineseTypingTestProps> = () => {
 
   useEffect(() => {
     if (isFinished) {
-      const wpm = Math.round(totalChars);
+      const wpm = Math.round(correctChars);
       const accuracy = totalChars > 0 ? Math.round((correctChars / totalChars) * 100) : 0;
       const currentResults = { wpm, accuracy };
 
@@ -168,6 +168,10 @@ const ChineseTypingTest: React.FC<ChineseTypingTestProps> = () => {
     navigate('/english');
   };
 
+  const switchToBopomofoGame = () => {
+    navigate('/bopomofo-game');
+  };
+
   const toggleTimer = () => {
     setShowTimer(!showTimer);
   };
@@ -178,6 +182,9 @@ const ChineseTypingTest: React.FC<ChineseTypingTestProps> = () => {
         <h2 className="title">中文打字練習</h2>
         <button className="language-button" onClick={switchToEnglish}>
           Switch to English
+        </button>
+        <button className="language-button" onClick={switchToBopomofoGame}>
+          注音遊戲
         </button>
       </div>
 
@@ -252,12 +259,12 @@ const ChineseTypingTest: React.FC<ChineseTypingTestProps> = () => {
             <div className="records-container">
               {lastScore && lastScore !== highScore && (
                 <div className="last-score-display">
-                  上次: {lastScore.wpm} 字
+                  上次: {lastScore.wpm} 正確字
                 </div>
               )}
               {highScore && (
                 <div className="high-score-display">
-                  最高紀錄: {highScore.wpm} 字
+                  最高紀錄: {highScore.wpm} 正確字
                 </div>
               )}
             </div>
@@ -271,7 +278,7 @@ const ChineseTypingTest: React.FC<ChineseTypingTestProps> = () => {
             <div className="result-item">
               <div className="result-icon">🏆</div>
               <div className="result-value">{results?.wpm}</div>
-              <div className="result-label">每分鐘字數</div>
+              <div className="result-label">每分鐘正確字數</div>
             </div>
             
             <div className="result-item">
@@ -284,7 +291,7 @@ const ChineseTypingTest: React.FC<ChineseTypingTestProps> = () => {
           {lastScore && lastScore !== results && (
             <div className="previous-score">
               <h4>上一次分數:</h4>
-              <div>每分鐘字數: {lastScore.wpm}</div>
+              <div>每分鐘正確字數: {lastScore.wpm}</div>
               <div>準確率: {lastScore.accuracy}%</div>
             </div>
           )}
@@ -292,7 +299,7 @@ const ChineseTypingTest: React.FC<ChineseTypingTestProps> = () => {
           {highScore && (
             <div className="high-score">
               <h4>最高分數:</h4>
-              <div>每分鐘字數: {highScore.wpm}</div>
+              <div>每分鐘正確字數: {highScore.wpm}</div>
               <div>準確率: {highScore.accuracy}%</div>
             </div>
           )}

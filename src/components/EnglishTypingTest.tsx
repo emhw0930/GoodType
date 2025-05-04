@@ -13,6 +13,8 @@ interface EnglishTypingTestProps {
 interface TestResults {
   wpm: number;
   accuracy: number;
+  correctChars: number;
+  incorrectChars: number;
 }
 
 const EnglishTypingTest: React.FC<EnglishTypingTestProps> = () => {
@@ -23,6 +25,8 @@ const EnglishTypingTest: React.FC<EnglishTypingTestProps> = () => {
   const [inputValue, setInputValue] = useState('');
   const [correctWords, setCorrectWords] = useState(0);
   const [totalWords, setTotalWords] = useState(0);
+  const [correctChars, setCorrectChars] = useState(0);
+  const [incorrectChars, setIncorrectChars] = useState(0);
   const [totalChars, setTotalChars] = useState(0);
   const [results, setResults] = useState<TestResults | null>(null);
   const [lastScore, setLastScore] = useLocalStorage<TestResults | null>('lastEnglishScore', null);
@@ -51,10 +55,17 @@ const EnglishTypingTest: React.FC<EnglishTypingTestProps> = () => {
 
   useEffect(() => {
     if (isFinished) {
-      const wpm = Math.round(totalChars / 4.7); // 使用字符數除以4.7計算WPM
+      // 修改為只計算正確字符的WPM
+      const wpm = Math.round(correctChars / 4.7);
       const accuracy = totalWords > 0 ? Math.round((correctWords / totalWords) * 100) : 0;
       
-      const currentResults = { wpm, accuracy };
+      const currentResults = { 
+        wpm, 
+        accuracy, 
+        correctChars, 
+        incorrectChars 
+      };
+      
       if (!results || results.wpm !== wpm || results.accuracy !== accuracy) {
         setResults(currentResults);
       }
@@ -65,7 +76,7 @@ const EnglishTypingTest: React.FC<EnglishTypingTestProps> = () => {
         setHighScore(currentResults);
       }
     }
-  }, [isFinished, correctWords, totalWords, totalChars, setLastScore, setHighScore, lastScore, highScore, results]);
+  }, [isFinished, correctWords, totalWords, correctChars, incorrectChars, setLastScore, setHighScore, lastScore, highScore, results]);
 
   const generateWordList = () => {
     // 打亂並選擇隨機單詞
@@ -180,12 +191,16 @@ const EnglishTypingTest: React.FC<EnglishTypingTestProps> = () => {
     const isCorrect = inputValue.toLowerCase().trim() === currentWord.toLowerCase();
     setTotalWords(prev => prev + 1);
     setTotalChars(prev => prev + currentWord.length);
+    
     if (isCorrect) {
       setCorrectWords(prev => prev + 1);
+      setCorrectChars(prev => prev + currentWord.length);
       setFeedback('correct');
     } else {
+      setIncorrectChars(prev => prev + currentWord.length);
       setFeedback('incorrect');
     }
+    
     const newStatus = [...wordStatus];
     newStatus[globalIdx] = isCorrect ? 'correct' : 'incorrect';
     setWordStatus(newStatus);
@@ -208,6 +223,8 @@ const EnglishTypingTest: React.FC<EnglishTypingTestProps> = () => {
     setCurrentWordIndex(0);
     setCorrectWords(0);
     setTotalWords(0);
+    setCorrectChars(0);
+    setIncorrectChars(0);
     setTotalChars(0);
     setResults(null);
     setWordStatus(Array(200).fill(null));
@@ -330,12 +347,12 @@ const EnglishTypingTest: React.FC<EnglishTypingTestProps> = () => {
               <div className="records-container">
                 {lastScore && lastScore !== highScore && (
                   <div className="last-score-display">
-                    Last: {lastScore.wpm} WPM
+                    Last: {lastScore.wpm} correct WPM
                   </div>
                 )}
                 {highScore && (
                   <div className="high-score-display">
-                    Best: {highScore.wpm} WPM
+                    Best: {highScore.wpm} correct WPM
                   </div>
                 )}
               </div>
@@ -350,7 +367,7 @@ const EnglishTypingTest: React.FC<EnglishTypingTestProps> = () => {
             <div className="result-item">
               <div className="result-icon">🏆</div>
               <div className="result-value">{results?.wpm}</div>
-              <div className="result-label">Words Per Minute</div>
+              <div className="result-label">Words Per Minute (Correct Only)</div>
             </div>
             
             <div className="result-item">
@@ -360,9 +377,20 @@ const EnglishTypingTest: React.FC<EnglishTypingTestProps> = () => {
             </div>
           </div>
           
+          <div className="character-stats">
+            <div className="character-stat">
+              <span className="character-label">Correct Characters:</span>
+              <span className="character-value">{results?.correctChars}</span>
+            </div>
+            <div className="character-stat">
+              <span className="character-label">Incorrect Characters:</span>
+              <span className="character-value">{results?.incorrectChars}</span>
+            </div>
+          </div>
+          
           <div className="high-score">
             <h4>High Score:</h4>
-            <div>WPM: {highScore?.wpm}</div>
+            <div>WPM (correct only): {highScore?.wpm}</div>
             <div>Accuracy: {highScore?.accuracy}%</div>
           </div>
           

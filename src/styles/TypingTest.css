@@ -169,4 +169,39 @@
   .timer {
     align-self: flex-end;
   }
+}
+
+.character-stats {
+  margin: 20px 0;
+  padding: 15px;
+  background: #f8f9fc;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+}
+
+.character-stat {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1rem;
+}
+
+.character-label {
+  color: #555;
+  font-weight: 500;
+}
+
+.character-value {
+  font-weight: 700;
+}
+
+.character-stat:first-child .character-value {
+  color: #4caf50; /* Green for correct characters */
+}
+
+.character-stat:last-child .character-value {
+  color: #f44336; /* Red for incorrect characters */
 } 

@@ -10,11 +10,12 @@ import AdDisclosure from './components/AdDisclosure';
 import About from './components/About';
 import Footer from './components/Footer';
 import GoogleAdsense from './components/GoogleAdsense';
+import BopomofoFallingGame from './components/BopomofoFallingGame';
 
 // Helper component to conditionally render ads
 const AdWrapper: React.FC = () => {
   const location = useLocation();
-  const shouldShowAds = ['/chinese', '/english', '/'].includes(location.pathname);
+  const shouldShowAds = ['/chinese', '/english', '/bopomofo-game', '/'].includes(location.pathname);
   return <GoogleAdsense shouldLoadAds={shouldShowAds} />;
 };
 
@@ -33,6 +34,7 @@ function App() {
             <Route path="/terms-of-service" element={<TermsOfService />} />
             <Route path="/ad-disclosure" element={<AdDisclosure />} />
             <Route path="/about" element={<About />} />
+            <Route path="/bopomofo-game" element={<BopomofoFallingGame />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>
